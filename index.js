@@ -24,7 +24,7 @@ Xvfb.prototype = {
     this._oldDisplay = process.env.DISPLAY;
     process.env.DISPLAY = display;
 
-    if (path.existsSync(lockFile)) {
+    if (fs.existsSync(lockFile)) {
       if (this._reuse) {
         return;
       } else {
@@ -36,7 +36,7 @@ Xvfb.prototype = {
 
     var sleepMs = 10;
     var timeoutMs = 500;
-    while (!path.existsSync(lockFile)) {
+    while (!fs.existsSync(lockFile)) {
       if (timeoutMs <= 0) {
         throw new Error('could not start Xvfb');
       }
@@ -61,7 +61,7 @@ Xvfb.prototype = {
       do {
         displayNum++;
         lockFile = _lockFileForDisplay(displayNum);
-      } while (!this._reuse && path.existsSync(lockFile));
+      } while (!this._reuse && fs.existsSync(lockFile));
       this._display = ':' + displayNum;
     }
     return this._display;
